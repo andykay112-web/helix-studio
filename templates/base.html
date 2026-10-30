@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#090a0c">
+<meta name="description" content="Helix’s Studio — a private, 18+ creator community with curated VIP memberships.">
+<title>{% block title %}Helix's Studio{% endblock %} | The Private Circle</title>
+<link rel="icon" type="image/png" href="/static/helix-logo.png">
+<link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+<a href="#main" class="skip-link">Skip to content</a>
+<header class="header">
+  <div class="header-inner container">
+    <a class="brand" href="/" aria-label="Helix's Studio home"><img src="/static/helix-logo.png" alt="HELIX STUDIOS"><span class="brand-caption">THE PRIVATE CIRCLE <span class="tiny-star">✦</span> HELIX'S STUDIO</span></a>
+    <button class="menu-button" type="button" aria-controls="nav" aria-expanded="false" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+    <nav id="nav" class="nav" aria-label="Main menu">
+      <a href="/#memberships">Memberships</a><a href="/content">The Vault</a><a href="/terms">Terms</a>
+      {% if user %}
+      <a href="/dashboard">My account</a>
+      {% if user.is_admin %}<a href="/admin">Admin</a>{% endif %}
+      <form action="/logout" method="post" class="nav-form"><input type="hidden" name="csrf" value="{{csrf}}"><button type="submit" class="nav-link">Sign out</button></form>
+      {% else %}
+      <a href="/login">Sign in</a><a href="/register" class="nav-action">Join the circle <span>↗</span></a>
+      {% endif %}
+    </nav>
+  </div>
+</header>
+{% if notices %}<div class="notices container" aria-live="polite">{% for notice in notices %}<div class="notice {{notice.category}}">{{notice.text}}</div>{% endfor %}</div>{% endif %}
+<main id="main">{% block content %}{% endblock %}</main>
+<footer class="footer"><div class="container footer-grid"><div><a href="/" class="footer-logo">HELIX<span>’S</span> STUDIO</a><p>A curated fan club for adult audiences.<br>Premium moments. Private access. Your circle.</p></div><div><div class="footer-eyebrow">EXPLORE</div><a href="/#memberships">Memberships</a><a href="/content">The Vault</a><a href="/dashboard">Member dashboard</a></div><div><div class="footer-eyebrow">SUPPORT & POLICY</div><a href="/terms">Terms and safety</a>{% if support_email %}<a href="mailto:{{support_email}}">Email support</a>{% endif %}<span>18+ adults only</span></div></div><div class="container footer-bottom"><span>© 2026 HELIX'S STUDIO</span><span>Independent creator membership concept · No celebrity affiliation implied</span></div></footer>
+<script src="/static/site.js" defer></script>
+</body></html>
