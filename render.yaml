@@ -1,0 +1,46 @@
+services:
+  - type: web
+    name: helix-studio
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT --proxy-headers
+    healthCheckPath: /health
+    disk:
+      name: helix-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: ENVIRONMENT
+        value: production
+      - key: DATABASE_PATH
+        value: /var/data/helix_studio.db
+      - key: PRIVATE_UPLOAD_DIR
+        value: /var/data/helix_proofs
+      - key: EMAIL_MODE
+        value: smtp
+      - key: MEMBERSHIP_MONTHS
+        value: '12'
+      - key: GIFT_CARD_ENABLED
+        value: '0'
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_EMAIL
+        sync: false
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: SMTP_HOST
+        sync: false
+      - key: SMTP_PORT
+        value: '587'
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASSWORD
+        sync: false
+      - key: SMTP_FROM
+        sync: false
+      - key: SUPPORT_EMAIL
+        sync: false
+      # Add BTC_ADDRESS only after verifying the receiving wallet is controlled by you.
+      # Add GIFT_CARD_INSTRUCTIONS and enable GIFT_CARD_ENABLED=1 only after establishing
+      # an authorized redemption process that does not collect PINs in this website.
